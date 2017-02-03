@@ -23,7 +23,7 @@ public class RomanCalculator extends JPanel  implements ActionListener
 			super();// to call the JPanel
 			
 			this.setLayout(new BorderLayout());// setting it to border layout
-			 Font bigFont = Roman1.getFont().deriveFont(Font.PLAIN, 20f);
+			 Font bigFont = Roman1.getFont().deriveFont(Font.PLAIN, 35f);
 			keypad.setLayout(new GridLayout(4,4));// create grid layout for the buttons
 			Textfields.setLayout(new GridLayout(3,2));
 			Roman1.setFont(bigFont);
