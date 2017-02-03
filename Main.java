@@ -13,7 +13,7 @@ public class Main {
 	
 	RomanCalculator calc=new RomanCalculator();
 	jiff.getContentPane().add(calc);
-	jiff.setSize(300, 200);
+	jiff.setSize(700, 500);
 	jiff.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 	jiff.setVisible(true);
 	

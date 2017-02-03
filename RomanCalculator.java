@@ -8,8 +8,12 @@ public class RomanCalculator extends JPanel  implements ActionListener
 {
 	private int sum=0,n1=0,n2=0;
 	private JButton[] barr=new JButton[14];
-	private JTextField Roman1=new JTextField(5);
-	private JTextField Result=new JTextField(5);
+	private JTextField Roman1=new JTextField(100);
+	private JTextField Roman2=new JTextField(100);
+	private JTextField Result=new JTextField(100);
+	private JTextField Integer1=new JTextField(100);
+	private JTextField Integer2=new JTextField(100);
+	private JTextField Integer3=new JTextField(100);
 	private String [] caption={"I","V","X","L","C","D","M","CE","-","+","/","%","*","="};
 	private JPanel keypad=new JPanel();
 	private JPanel Textfields=new JPanel();
@@ -19,11 +23,21 @@ public class RomanCalculator extends JPanel  implements ActionListener
 			super();// to call the JPanel
 			
 			this.setLayout(new BorderLayout());// setting it to border layout
-			
+			 Font bigFont = Roman1.getFont().deriveFont(Font.PLAIN, 20f);
 			keypad.setLayout(new GridLayout(4,4));// create grid layout for the buttons
-			Textfields.setLayout(new GridLayout(2,3));
+			Textfields.setLayout(new GridLayout(3,2));
+			Roman1.setFont(bigFont);
+			Roman2.setFont(bigFont);
+			Result.setFont(bigFont);
+			Integer1.setFont(bigFont);
+			Integer2.setFont(bigFont);
+			Integer3.setFont(bigFont);
 			Textfields.add(Roman1);
+			Textfields.add(Roman2);
 			Textfields.add(Result);
+			Textfields.add(Integer1);
+			Textfields.add(Integer2);
+			Textfields.add(Integer3);
 			this.add(Textfields,BorderLayout.NORTH);
 		
 			
