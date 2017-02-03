@@ -44,7 +44,7 @@ public class RomanCalculator extends JPanel  implements ActionListener
 			for(int i=0;i<barr.length;i++)
 			{
 				barr[i]=new JButton(caption[i]);
-				keypad.add(barr[i]);
+				keypad.add(barr[i]).setFont(bigFont);
 				barr[i].addActionListener(this);// listen to buttons and find action in this class
 			}
 			this.add(keypad, BorderLayout.CENTER);
