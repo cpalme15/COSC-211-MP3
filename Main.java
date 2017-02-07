@@ -17,7 +17,7 @@ public class Main {
 	jiff.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 	jiff.setVisible(true);
 	
-
+	
 	}
 
 }
