@@ -4,11 +4,11 @@ import java.awt.event.*;
 
 import javax.swing.*;
 
-public class RomanCalculator extends JPanel  implements ActionListener
+public class RomanCalculator extends Roman implements ActionListener 
 // can only extend one class so if need more use implements
 {
 	private static int sum=0;
-	private int I=1,V=5,X=10,L=50,C=100,D=500,M=1000,numI=0,numV,numX,numL,numC,numD,numM,oper_Used=0;
+	private static int I=1,V=5,X=10,L=50,C=100,D=500,M=1000,numI=0,numV,numX,numL,numC,numD,numM,oper_Used=0;
 	private JButton[] barr=new JButton[14];
 	private static JTextField Roman1=new JTextField(100);
 	private static JTextField Roman2=new JTextField(100);
@@ -29,7 +29,6 @@ public class RomanCalculator extends JPanel  implements ActionListener
 	public RomanCalculator()
 	{
 		super();// to call the JPanel
-		Roman1.requestFocusInWindow();
 		this.setLayout(new BorderLayout());// setting it to border layout
 		Font bigFont = Roman1.getFont().deriveFont(Font.PLAIN, 35f);
 		keypad.setLayout(new GridLayout(4,4));// create grid layout for the buttons
@@ -38,13 +37,7 @@ public class RomanCalculator extends JPanel  implements ActionListener
 		Textfields.add(Roman1);Textfields.add(Integer1);Textfields.add(Roman2);Textfields.add(Integer2);Textfields.add(Result);	Textfields.add(Integer3);
 		Roman1.setEditable(false);Roman2.setEditable(false);Result.setEditable(false);Integer1.setEditable(false);Integer2.setEditable(false);Integer3.setEditable(false);
 		Roman1.setText("Roman 1");Roman2.setText("Roman 2");Result.setText("Result");Integer1.setText("Integer 1");Integer2.setText("Integer 2");Integer3.setText("Integer 3");
-		
-		
-		
-		
 		this.add(Textfields,BorderLayout.NORTH);
-
-
 		for(int i=0;i<barr.length;i++)
 		{
 			barr[i]=new JButton(caption[i]);
@@ -54,8 +47,6 @@ public class RomanCalculator extends JPanel  implements ActionListener
 		this.add(keypad, BorderLayout.CENTER);
 		empty.setText("");
 	}
-
-
 	@Override
 	public void actionPerformed(ActionEvent e) 
 	{
@@ -64,90 +55,47 @@ public class RomanCalculator extends JPanel  implements ActionListener
 		{
 		case "=":
 			Result.setText("");
-			if(oper_Used==1){
-			sum=Integer.parseInt(Integer1.getText())+Integer.parseInt(Integer2.getText());}
-			if(oper_Used==2){sum=Integer.parseInt(Integer1.getText())-Integer.parseInt(Integer2.getText()); 
-				if(Integer.parseInt(Integer1.getText())<Integer.parseInt(Integer2.getText())||Integer.parseInt(Integer1.getText())-Integer.parseInt(Integer2.getText())==0)
-				{Result.setText("Nulla");}
-				}
-			if(oper_Used==3){sum=Integer.parseInt(Integer1.getText())*Integer.parseInt(Integer2.getText());}
-			if(oper_Used==4){sum=Integer.parseInt(Integer1.getText())/Integer.parseInt(Integer2.getText());}
-			if(oper_Used==5){sum=Integer.parseInt(Integer1.getText())%Integer.parseInt(Integer2.getText());}
+			switch(oper_Used){
+			case 1: add(); break;
+			case 2:	Sub();break;
+			case 3: multi();break;
+			case 4:	divi();break;
+			case 5:	module();break;
+			}
 			Integer3.setText("");
 			Integer3.setText(""+sum);
-			numM=(sum)/M;
-			sum=sum-(M*numM);
-			
-			for(int i=0;i<numM;i++)
-			{
-				Result.setText(Result.getText()+"M");
-
-			}
-			numD=(sum)/D;
-			sum=sum-(D*numD);
-			for(int i=0;i<numD;i++)
-			{
-				Result.setText(Result.getText()+"D");
-
-			}
-			numC=(sum)/C;
-			sum=sum-(C*numC);
-			for(int i=0;i<numC;i++)
-			{
-				Result.setText(Result.getText()+"C");
-
-			}
-			numL=(sum)/L;
-			sum=sum-(L*numL);
-			for(int i=0;i<numL;i++)
-			{
-				Result.setText(Result.getText()+"L");
-				
-			}
-			numX=(sum)/X;
-			sum=sum-(X*numX);
-			for(int i=0;i<numX;i++)
-			{
-				Result.setText(Result.getText()+"X");
-				
-			}
-			numV=(sum)/V;
-			sum=sum-(V*numV);
-			for(int i=0;i<numV;i++)
-			{
-				Result.setText(Result.getText()+"V");
-
-			}
-			numI=(sum)/I;
-			sum=sum-(I*numI);
-			for(int i=0;i<numI;i++)
-			{
-				Result.setText(Result.getText()+"I");
-			}
+			descending_Divi();
 			break;
+			
 		case"%":clear_Counters();
 		use_Operat=true;
 		oper_Used=5;
 		break;
+		
 		case"/": clear_Counters();
 		use_Operat=true;
 		oper_Used=4;
 		break;
+		
 		case"*": clear_Counters();
 		use_Operat=true;
 		oper_Used=3;
 		break;
+		
 		case"-": clear_Counters();
 		use_Operat=true;
 		oper_Used=2;
 		break;
+		
 		case "+":clear_Counters();
 			use_Operat=true;
 			oper_Used=1;
 			break;
+			
 		case "CE":
 			clear_Everything();
 		break;
+		
 		default: 
 			if(use_Operat==true){do{
 				Roman2.setText("");
@@ -187,13 +135,78 @@ public class RomanCalculator extends JPanel  implements ActionListener
 					Integer1.setText(String.valueOf((ICounter*I)+(VCounter*V)+(XCounter*X)+(LCounter*L)+(CCounter*C)+(DCounter*D)+(MCounter*M)));
 					done=true;
 					}while(!done);
-				
+		}
+		}
+		}
+	public static void descending_Divi(){
+		numM=(sum)/M;
+		sum=sum-(M*numM);
+		
+		for(int i=0;i<numM;i++)
+		{
+			Result.setText(Result.getText()+"M");
+
+		}
+		numD=(sum)/D;
+		sum=sum-(D*numD);
+		for(int i=0;i<numD;i++)
+		{
+			Result.setText(Result.getText()+"D");
+
+		}
+		numC=(sum)/C;
+		sum=sum-(C*numC);
+		for(int i=0;i<numC;i++)
+		{
+			Result.setText(Result.getText()+"C");
+
+		}
+		numL=(sum)/L;
+		sum=sum-(L*numL);
+		for(int i=0;i<numL;i++)
+		{
+			Result.setText(Result.getText()+"L");
+			
+		}
+		numX=(sum)/X;
+		sum=sum-(X*numX);
+		for(int i=0;i<numX;i++)
+		{
+			Result.setText(Result.getText()+"X");
+			
+		}
+		numV=(sum)/V;
+		sum=sum-(V*numV);
+		for(int i=0;i<numV;i++)
+		{
+			Result.setText(Result.getText()+"V");
+
+		}
+		numI=(sum)/I;
+		sum=sum-(I*numI);
+		for(int i=0;i<numI;i++)
+		{
+			Result.setText(Result.getText()+"I");
+		}
+	}
+	public static void add()
+	{sum=Integer.parseInt(Integer1.getText())+Integer.parseInt(Integer2.getText());}
 	
-
-
-		}
-		}
-		}
+	public static void Sub()
+	{sum=Integer.parseInt(Integer1.getText())-Integer.parseInt(Integer2.getText());
+	if(Integer.parseInt(Integer1.getText())<Integer.parseInt(Integer2.getText())||
+	Integer.parseInt(Integer1.getText())-Integer.parseInt(Integer2.getText())==0)
+	{Result.setText("Nulla");}}
+	
+	public static void multi()
+	{sum=Integer.parseInt(Integer1.getText())*Integer.parseInt(Integer2.getText());}
+	
+	public static void divi()
+	{sum=Integer.parseInt(Integer1.getText())/Integer.parseInt(Integer2.getText());}
+	
+	public static void module()
+	{sum=Integer.parseInt(Integer1.getText())%Integer.parseInt(Integer2.getText());}
+	
 	public static void clear_Everything(){
 		 Roman1.setText("Roman 1");
 			Roman2.setText("Roman 2");
