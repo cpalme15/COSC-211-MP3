@@ -7,18 +7,24 @@ import javax.swing.*;
 public class RomanCalculator extends JPanel  implements ActionListener
 // can only extend one class so if need more use implements
 {
-	private int sum=0,n1=0,n2=0;
+	private static int sum=0;
+	private int I=1,V=5,X=10,L=50,C=100,D=500,M=1000,numI=0,numV,numX,numL,numC,numD,numM,oper_Used=0;
 	private JButton[] barr=new JButton[14];
-	private JTextField Roman1=new JTextField(100);
-	private JTextField Roman2=new JTextField(100);
-	private JTextField Result=new JTextField(100);
-	private JTextField Integer1=new JTextField(100);
-	private JTextField Integer2=new JTextField(100);
-	private JTextField Integer3=new JTextField(100);
+	private static JTextField Roman1=new JTextField(100);
+	private static JTextField Roman2=new JTextField(100);
+	private static JTextField Result=new JTextField(100);
+	private static JTextField Integer1=new JTextField(100);
+	private static JTextField Integer2=new JTextField(100);
+	private static JTextField Integer3=new JTextField(100);
 	private String [] caption={"I","V","X","L","C","D","M","CE","-","+","/","%","*","="};
 	private JPanel keypad=new JPanel();
 	private JPanel Textfields=new JPanel();
 	private JTextField empty=new JTextField();
+	private boolean done=false;
+	private static boolean use_Operat=false;
+	private static int ICounter,VCounter,XCounter,LCounter,CCounter,DCounter,MCounter;
+	
+
 	
 	public RomanCalculator()
 	{
@@ -28,18 +34,14 @@ public class RomanCalculator extends JPanel  implements ActionListener
 		Font bigFont = Roman1.getFont().deriveFont(Font.PLAIN, 35f);
 		keypad.setLayout(new GridLayout(4,4));// create grid layout for the buttons
 		Textfields.setLayout(new GridLayout(3,2));
-		Roman1.setFont(bigFont);
-		Roman2.setFont(bigFont);
-		Result.setFont(bigFont);
-		Integer1.setFont(bigFont);
-		Integer2.setFont(bigFont);
-		Integer3.setFont(bigFont);
-		Textfields.add(Roman1);
-		Textfields.add(Integer1);
-		Textfields.add(Roman2);
-		Textfields.add(Integer2);
-		Textfields.add(Result);
-		Textfields.add(Integer3);
+		Roman1.setFont(bigFont);Roman2.setFont(bigFont);Result.setFont(bigFont);	Integer1.setFont(bigFont);Integer2.setFont(bigFont);Integer3.setFont(bigFont);
+		Textfields.add(Roman1);Textfields.add(Integer1);Textfields.add(Roman2);Textfields.add(Integer2);Textfields.add(Result);	Textfields.add(Integer3);
+		Roman1.setEditable(false);Roman2.setEditable(false);Result.setEditable(false);Integer1.setEditable(false);Integer2.setEditable(false);Integer3.setEditable(false);
+		Roman1.setText("Roman 1");Roman2.setText("Roman 2");Result.setText("Result");Integer1.setText("Integer 1");Integer2.setText("Integer 2");Integer3.setText("Integer 3");
+		
+		
+		
+		
 		this.add(Textfields,BorderLayout.NORTH);
 
 
@@ -53,7 +55,7 @@ public class RomanCalculator extends JPanel  implements ActionListener
 		empty.setText("");
 	}
 
-	
+
 	@Override
 	public void actionPerformed(ActionEvent e) 
 	{
@@ -61,55 +63,151 @@ public class RomanCalculator extends JPanel  implements ActionListener
 		switch(x)
 		{
 		case "=":
-			sum=n1+n2;
-			Integer3.setText(""+sum);
-			
-			break;
-		case "+":
-			Roman2.grabFocus();
-			break;
-
-		case "CE": Roman1.setText("");
-		Roman2.setText("");
-		Result.setText("");
-		Integer1.setText("");
-		Integer2.setText("");
-		Integer3.setText("");
-		n1=0;
-		n2=0;
-		sum=0;
-		break;
-		default: 
-			if(Roman1.getText().equals(empty.getText())){Roman1.setText(x);
-			switch(x)
-			{	
-			case "I": n1=1; break;
-			case "V": n1=5;break;
-			case "X": n1=10;break;
-			case "L": n1=50;break;
-			case "C": n1=100;break;
-			case "D": n1=500;break;
-			case "M": n1=1000;break;
-			}
-			Integer1.setText(String.valueOf(n1));	break;}
-			else if(Roman2.getText().equals(empty.getText()))
-			{
-				Roman2.setText(x);switch(x)
-				{	
-				case "I": n2=1; break;
-				case "V": n2=5;break;
-				case "X": n2=10;break;
-				case "L": n2=50;break;
-				case "C": n2=100;break;
-				case "D": n2=500;break;
-				case "M": n2=1000;break;
+			Result.setText("");
+			if(oper_Used==1){
+			sum=Integer.parseInt(Integer1.getText())+Integer.parseInt(Integer2.getText());}
+			if(oper_Used==2){sum=Integer.parseInt(Integer1.getText())-Integer.parseInt(Integer2.getText()); 
+				if(Integer.parseInt(Integer1.getText())<Integer.parseInt(Integer2.getText())||Integer.parseInt(Integer1.getText())-Integer.parseInt(Integer2.getText())==0)
+				{Result.setText("Nulla");}
 				}
-				Integer2.setText(String.valueOf(n2));	break;
+			if(oper_Used==3){sum=Integer.parseInt(Integer1.getText())*Integer.parseInt(Integer2.getText());}
+			if(oper_Used==4){sum=Integer.parseInt(Integer1.getText())/Integer.parseInt(Integer2.getText());}
+			if(oper_Used==5){sum=Integer.parseInt(Integer1.getText())%Integer.parseInt(Integer2.getText());}
+			Integer3.setText("");
+			Integer3.setText(""+sum);
+			numM=(sum)/M;
+			sum=sum-(M*numM);
+			
+			for(int i=0;i<numM;i++)
+			{
+				Result.setText(Result.getText()+"M");
+
+			}
+			numD=(sum)/D;
+			sum=sum-(D*numD);
+			for(int i=0;i<numD;i++)
+			{
+				Result.setText(Result.getText()+"D");
+
+			}
+			numC=(sum)/C;
+			sum=sum-(C*numC);
+			for(int i=0;i<numC;i++)
+			{
+				Result.setText(Result.getText()+"C");
+
+			}
+			numL=(sum)/L;
+			sum=sum-(L*numL);
+			for(int i=0;i<numL;i++)
+			{
+				Result.setText(Result.getText()+"L");
 				
 			}
+			numX=(sum)/X;
+			sum=sum-(X*numX);
+			for(int i=0;i<numX;i++)
+			{
+				Result.setText(Result.getText()+"X");
+				
+			}
+			numV=(sum)/V;
+			sum=sum-(V*numV);
+			for(int i=0;i<numV;i++)
+			{
+				Result.setText(Result.getText()+"V");
+
+			}
+			numI=(sum)/I;
+			sum=sum-(I*numI);
+			for(int i=0;i<numI;i++)
+			{
+				Result.setText(Result.getText()+"I");
+			}
+			break;
+		case"%":clear_Counters();
+		use_Operat=true;
+		oper_Used=5;
+		break;
+		case"/": clear_Counters();
+		use_Operat=true;
+		oper_Used=4;
+		break;
+		case"*": clear_Counters();
+		use_Operat=true;
+		oper_Used=3;
+		break;
+		case"-": clear_Counters();
+		use_Operat=true;
+		oper_Used=2;
+		break;
+		case "+":clear_Counters();
+			use_Operat=true;
+			oper_Used=1;
+			break;
+		case "CE":
+			clear_Everything();
+		break;
+		default: 
+			if(use_Operat==true){do{
+				Roman2.setText("");
+				Roman2.setText(Roman2.getText()+x);
+				
+				
+				switch(x)
+				{	
+				case "I": ICounter++; break;
+				case "V": VCounter++;break;
+				case "X": XCounter++;break;
+				case "L": LCounter++;break;
+				case "C": CCounter++;break;
+				case "D": DCounter++;break;
+				case "M": MCounter++;break;
+				}
+				Integer2.setText("");
+				Integer2.setText(String.valueOf((ICounter*I)+(VCounter*V)+(XCounter*X)+(LCounter*L)+(CCounter*C)+(DCounter*D)+(MCounter*M)));
+				done=true;
+				}while(!done);}
+			else{
+			do{     Roman1.setText("");
+					Roman1.setText(Roman1.getText()+x);
+					
+					
+					switch(x)
+					{	
+					case "I": ICounter++; break;
+					case "V": VCounter++;break;
+					case "X": XCounter++;break;
+					case "L": LCounter++;break;
+					case "C": CCounter++;break;
+					case "D": DCounter++;break;
+					case "M": MCounter++;break;
+					}
+					Integer1.setText("");
+					Integer1.setText(String.valueOf((ICounter*I)+(VCounter*V)+(XCounter*X)+(LCounter*L)+(CCounter*C)+(DCounter*D)+(MCounter*M)));
+					done=true;
+					}while(!done);
+				
 	
 
 
 		}
+		}
+		}
+	public static void clear_Everything(){
+		 Roman1.setText("Roman 1");
+			Roman2.setText("Roman 2");
+			Result.setText("Result");
+			Integer1.setText("Integer 1");
+			Integer2.setText("Integer 2");
+			Integer3.setText("Integer 3");
+			sum=0;
+			clear_Counters();
+			use_Operat=false;
+			}
+	public static void clear_Counters()
+	{
+		ICounter=0;VCounter=0;XCounter=0;LCounter=0;CCounter=0;DCounter=0;MCounter=0;
 	}
-}
+	
+	}
