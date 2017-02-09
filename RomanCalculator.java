@@ -19,7 +19,6 @@ public class RomanCalculator extends Roman implements ActionListener
 	private String [] caption={"I","V","X","L","C","D","M","CE","-","+","/","%","*","="};
 	private JPanel keypad=new JPanel();
 	private JPanel Textfields=new JPanel();
-	private JTextField empty=new JTextField();
 	private boolean done=false;
 	private static boolean use_Operat=false;
 	private static int ICounter,VCounter,XCounter,LCounter,CCounter,DCounter,MCounter;
@@ -36,7 +35,6 @@ public class RomanCalculator extends Roman implements ActionListener
 		Roman1.setFont(bigFont);Roman2.setFont(bigFont);Result.setFont(bigFont);	Integer1.setFont(bigFont);Integer2.setFont(bigFont);Integer3.setFont(bigFont);
 		Textfields.add(Roman1);Textfields.add(Integer1);Textfields.add(Roman2);Textfields.add(Integer2);Textfields.add(Result);	Textfields.add(Integer3);
 		Roman1.setEditable(false);Roman2.setEditable(false);Result.setEditable(false);Integer1.setEditable(false);Integer2.setEditable(false);Integer3.setEditable(false);
-		Roman1.setText("Roman 1");Roman2.setText("Roman 2");Result.setText("Result");Integer1.setText("Integer 1");Integer2.setText("Integer 2");Integer3.setText("Integer 3");
 		this.add(Textfields,BorderLayout.NORTH);
 		for(int i=0;i<barr.length;i++)
 		{
@@ -45,7 +43,6 @@ public class RomanCalculator extends Roman implements ActionListener
 			barr[i].addActionListener(this);// listen to buttons and find action in this class
 		}
 		this.add(keypad, BorderLayout.CENTER);
-		empty.setText("");
 	}
 	@Override
 	public void actionPerformed(ActionEvent e) 
@@ -54,7 +51,7 @@ public class RomanCalculator extends Roman implements ActionListener
 		switch(x)
 		{
 		case "=":
-			Result.setText("");
+			
 			switch(oper_Used){
 			case 1: add(); break;
 			case 2:	Sub();break;
@@ -97,8 +94,9 @@ public class RomanCalculator extends Roman implements ActionListener
 		break;
 		
 		default: 
+			
 			if(use_Operat==true){do{
-				Roman2.setText("");
+				
 				Roman2.setText(Roman2.getText()+x);
 				
 				
@@ -112,12 +110,12 @@ public class RomanCalculator extends Roman implements ActionListener
 				case "D": DCounter++;break;
 				case "M": MCounter++;break;
 				}
-				Integer2.setText("");
+				
 				Integer2.setText(String.valueOf((ICounter*I)+(VCounter*V)+(XCounter*X)+(LCounter*L)+(CCounter*C)+(DCounter*D)+(MCounter*M)));
 				done=true;
 				}while(!done);}
 			else{
-			do{     Roman1.setText("");
+			do{     
 					Roman1.setText(Roman1.getText()+x);
 					
 					
@@ -131,7 +129,7 @@ public class RomanCalculator extends Roman implements ActionListener
 					case "D": DCounter++;break;
 					case "M": MCounter++;break;
 					}
-					Integer1.setText("");
+					
 					Integer1.setText(String.valueOf((ICounter*I)+(VCounter*V)+(XCounter*X)+(LCounter*L)+(CCounter*C)+(DCounter*D)+(MCounter*M)));
 					done=true;
 					}while(!done);
@@ -208,12 +206,12 @@ public class RomanCalculator extends Roman implements ActionListener
 	{sum=Integer.parseInt(Integer1.getText())%Integer.parseInt(Integer2.getText());}
 	
 	public static void clear_Everything(){
-		 Roman1.setText("Roman 1");
-			Roman2.setText("Roman 2");
-			Result.setText("Result");
-			Integer1.setText("Integer 1");
-			Integer2.setText("Integer 2");
-			Integer3.setText("Integer 3");
+		 Roman1.setText("");
+			Roman2.setText("");
+			Result.setText("");
+			Integer1.setText("");
+			Integer2.setText("");
+			Integer3.setText("");
 			sum=0;
 			clear_Counters();
 			use_Operat=false;
